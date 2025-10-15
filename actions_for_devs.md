@@ -106,6 +106,51 @@ If you want to use the AI chat assistant:
 - Never commit actual API keys or secrets to the repository
 - The firebaseConfig object contains public configuration values, not secrets
 
+### How Data Isolation Works
+
+The application stores data in Firestore with the following structure:
+
+```
+/users/{userId}/data/tableData
+```
+
+Where `{userId}` is the authenticated user's unique Firebase UID. The security rules ensure that:
+
+1. **Authentication Required**: Users must be signed in with Google to access any data
+2. **User-Specific Access**: The rule `request.auth.uid == userId` ensures each user can only access documents in their own user collection
+3. **Complete Isolation**: User A cannot read, write, or even see that User B's data exists
+
+This means:
+- If Alice signs in, she can only access `/users/alice-uid/data/*`
+- If Bob signs in, he can only access `/users/bob-uid/data/*`
+- Alice and Bob cannot see each other's data, even if they know the document path
+
+### Data Structure in Firestore
+
+For each authenticated user, the following document is created:
+
+**Document Path**: `/users/{userId}/data/tableData`
+
+**Document Contents**:
+```javascript
+{
+  headers: ["Date", "Column 2", "Column 3", ...],
+  data: [
+    ["2024-01-01", "10", "20", ...],
+    ["2024-01-02", "15", "35", ...],
+    ...
+  ],
+  columnCount: 3,
+  lastUpdated: <Firebase Timestamp>
+}
+```
+
+This structure is automatically created and updated when:
+- User makes changes to table headers
+- User adds/edits/deletes rows or columns
+- User imports CSV data
+- Changes are debounced (saved 1 second after last edit)
+
 ## Troubleshooting
 
 If authentication doesn't work:
