@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Plotter</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -268,6 +274,21 @@
             font-size: 13px;
         }
 
+        .auth-status {
+            text-align: center;
+            padding: 8px;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            color: #856404;
+            font-size: 0.9rem;
+        }
+
+        .auth-status.hidden {
+            display: none;
+        }
+
         .import-section {
             margin-bottom: 20px;
         }
@@ -524,6 +545,11 @@
         <h1>📊 Data Plotter</h1>
         <p class="subtitle">Enter data in the table below and analyze your time-series data</p>
 
+        <!-- Auth status indicator -->
+        <div id="authStatus" class="auth-status hidden">
+            ⚠️ You are not signed in. Your data will not be saved. Please sign in with Google to save your data.
+        </div>
+
         <div class="section">
             <h2>Data Table</h2>
             
@@ -641,9 +667,42 @@
     </div>
 
     <script>
+        // Firebase Configuration
+        // TODO: Replace with your actual Firebase config from Firebase Console
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        let app, auth, db;
+        let currentUser = null;
+        let isFirebaseConfigured = false;
+
+        try {
+            // Check if Firebase config is set
+            if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+                app = firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+                isFirebaseConfigured = true;
+                console.log("Firebase initialized successfully");
+            } else {
+                console.warn("Firebase not configured - using local storage only");
+            }
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+            isFirebaseConfigured = false;
+        }
+
         let columnCount = 3;
         let rowCount = 5;
         let correlationData = null;
+        let autoSaveTimeout = null;
 
         // Initialize table with default data
         function initTable() {
@@ -663,7 +722,10 @@
                 if (i === 0) {
                     input.readOnly = true; // Date column can't be renamed
                 }
-                input.onchange = updateAxisSelectors;
+                input.onchange = () => {
+                    updateAxisSelectors();
+                    scheduleAutoSave();
+                };
                 headerContent.appendChild(input);
                 
                 // Add delete button for non-Date columns
@@ -699,11 +761,17 @@
                 const input = document.createElement('input');
                 input.type = i === 0 ? 'date' : 'text'; // First column is date type
                 input.value = initialData && initialData[i] !== undefined ? initialData[i] : '';
+                input.onchange = scheduleAutoSave;
                 td.appendChild(input);
                 row.appendChild(td);
             }
             
             tableBody.appendChild(row);
+            
+            // Schedule auto-save if user is logged in
+            if (currentUser && !initialData) {
+                scheduleAutoSave();
+            }
         }
 
         function addColumn() {
@@ -718,7 +786,10 @@
             const input = document.createElement('input');
             input.type = 'text';
             input.value = `Column ${columnCount}`;
-            input.onchange = updateAxisSelectors;
+            input.onchange = () => {
+                updateAxisSelectors();
+                scheduleAutoSave();
+            };
             headerContent.appendChild(input);
             
             const deleteBtn = document.createElement('button');
@@ -737,11 +808,13 @@
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = '';
+                input.onchange = scheduleAutoSave;
                 td.appendChild(input);
                 row.appendChild(td);
             });
 
             updateAxisSelectors();
+            scheduleAutoSave();
         }
 
         function deleteColumn(colIndex) {
@@ -767,6 +840,7 @@
             
             columnCount--;
             updateAxisSelectors();
+            scheduleAutoSave();
         }
 
         function updateAxisSelectors() {
@@ -1521,7 +1595,10 @@
                 if (i === 0) {
                     input.readOnly = true;
                 }
-                input.onchange = updateAxisSelectors;
+                input.onchange = () => {
+                    updateAxisSelectors();
+                    scheduleAutoSave();
+                };
                 headerContent.appendChild(input);
                 
                 if (i > 0) {
@@ -1545,6 +1622,7 @@
                     const input = document.createElement('input');
                     input.type = i === 0 ? 'date' : 'text';
                     input.value = rowData[i] || '';
+                    input.onchange = scheduleAutoSave;
                     td.appendChild(input);
                     row.appendChild(td);
                 }
@@ -1552,17 +1630,189 @@
             });
             
             updateAxisSelectors();
+            scheduleAutoSave();
             alert(`Successfully imported ${dataRows.length} rows and ${headers.length} columns`);
         }
 
-        // Authentication functions (placeholder - requires backend)
-        function handleLogin() {
-            alert('Google OAuth login requires backend server integration. This is a front-end only demo.');
+        // Authentication functions
+        async function handleLogin() {
+            if (!isFirebaseConfigured) {
+                alert('Firebase is not configured. Please check actions_for_devs.md for setup instructions.');
+                return;
+            }
+
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                await auth.signInWithPopup(provider);
+                // User info will be updated by the auth state listener
+            } catch (error) {
+                console.error("Login error:", error);
+                alert('Login failed: ' + error.message);
+            }
         }
 
-        function handleLogout() {
-            document.getElementById('loginArea').style.display = 'block';
-            document.getElementById('userArea').style.display = 'none';
+        async function handleLogout() {
+            if (!isFirebaseConfigured) {
+                return;
+            }
+
+            try {
+                await auth.signOut();
+                // UI update will be handled by auth state listener
+            } catch (error) {
+                console.error("Logout error:", error);
+                alert('Logout failed: ' + error.message);
+            }
+        }
+
+        // Listen for authentication state changes
+        if (isFirebaseConfigured) {
+            auth.onAuthStateChanged(async (user) => {
+                currentUser = user;
+                const authStatus = document.getElementById('authStatus');
+                
+                if (user) {
+                    // User is signed in
+                    document.getElementById('loginArea').style.display = 'none';
+                    document.getElementById('userArea').style.display = 'flex';
+                    document.getElementById('userName').textContent = user.displayName || user.email;
+                    authStatus.classList.add('hidden');
+                    
+                    if (user.photoURL) {
+                        const avatar = document.getElementById('userAvatar');
+                        avatar.src = user.photoURL;
+                        avatar.style.display = 'block';
+                    }
+                    
+                    // Load user data from Firestore
+                    await loadUserData();
+                } else {
+                    // User is signed out
+                    document.getElementById('loginArea').style.display = 'block';
+                    document.getElementById('userArea').style.display = 'none';
+                    authStatus.classList.remove('hidden');
+                    
+                    // Reset to default data
+                    initTable();
+                }
+            });
+        } else {
+            // Firebase not configured - show warning
+            const authStatus = document.getElementById('authStatus');
+            authStatus.innerHTML = '⚠️ Firebase not configured. Please check actions_for_devs.md for setup instructions. Your data will not be saved.';
+            authStatus.classList.remove('hidden');
+        }
+
+        // Firestore data persistence
+        async function saveUserData() {
+            if (!isFirebaseConfigured || !currentUser) {
+                return; // No Firebase or not logged in - skip saving
+            }
+
+            try {
+                const { headers, data } = getTableData();
+                
+                const userData = {
+                    headers: headers,
+                    data: data,
+                    columnCount: columnCount,
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                await db.collection('users').doc(currentUser.uid).collection('data').doc('tableData').set(userData);
+                console.log('Data saved successfully');
+            } catch (error) {
+                console.error('Error saving data:', error);
+            }
+        }
+
+        async function loadUserData() {
+            if (!isFirebaseConfigured || !currentUser) {
+                return;
+            }
+
+            try {
+                const docRef = db.collection('users').doc(currentUser.uid).collection('data').doc('tableData');
+                const doc = await docRef.get();
+
+                if (doc.exists) {
+                    const userData = doc.data();
+                    
+                    // Restore column count
+                    columnCount = userData.columnCount || userData.headers.length;
+                    
+                    // Rebuild table with saved data
+                    const headerRow = document.getElementById('headerRow');
+                    const tableBody = document.getElementById('tableBody');
+                    
+                    // Clear existing table
+                    headerRow.innerHTML = '';
+                    tableBody.innerHTML = '';
+                    
+                    // Rebuild headers
+                    for (let i = 0; i < userData.headers.length; i++) {
+                        const th = document.createElement('th');
+                        const headerContent = document.createElement('div');
+                        headerContent.className = 'header-content';
+                        
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.value = userData.headers[i];
+                        if (i === 0) {
+                            input.readOnly = true;
+                        }
+                        input.onchange = () => {
+                            updateAxisSelectors();
+                            scheduleAutoSave();
+                        };
+                        headerContent.appendChild(input);
+                        
+                        if (i > 0) {
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.className = 'delete-column';
+                            deleteBtn.textContent = '✕';
+                            deleteBtn.onclick = () => deleteColumn(i);
+                            headerContent.appendChild(deleteBtn);
+                        }
+                        
+                        th.appendChild(headerContent);
+                        headerRow.appendChild(th);
+                    }
+                    
+                    // Rebuild data rows
+                    userData.data.forEach(rowData => {
+                        const row = document.createElement('tr');
+                        for (let i = 0; i < columnCount; i++) {
+                            const td = document.createElement('td');
+                            const input = document.createElement('input');
+                            input.type = i === 0 ? 'date' : 'text';
+                            input.value = rowData[i] || '';
+                            input.onchange = scheduleAutoSave;
+                            td.appendChild(input);
+                            row.appendChild(td);
+                        }
+                        tableBody.appendChild(row);
+                    });
+                    
+                    updateAxisSelectors();
+                    console.log('Data loaded successfully');
+                } else {
+                    // No saved data, use defaults
+                    console.log('No saved data found, using defaults');
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Auto-save with debounce
+        function scheduleAutoSave() {
+            if (autoSaveTimeout) {
+                clearTimeout(autoSaveTimeout);
+            }
+            autoSaveTimeout = setTimeout(() => {
+                saveUserData();
+            }, 1000); // Save 1 second after last change
         }
 
         // API Key management (placeholder - requires backend)
