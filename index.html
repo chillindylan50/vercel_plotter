@@ -1567,7 +1567,7 @@
 
         // API Key management (placeholder - requires backend)
         function saveApiKey() {
-            const apiKey = document.getElementById('apiKey').value;
+            const apiKey = document.getElementById('apiKey').value.trim();
             if (!apiKey || !apiKey.startsWith('sk-')) {
                 alert('Please enter a valid OpenAI API key (starts with sk-)');
                 return;
