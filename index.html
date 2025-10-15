@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Plotter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #444;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 400px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 4px;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus {
+            outline: 2px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        select:hover {
+            border-color: #667eea;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+            align-self: flex-end;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        button.secondary:hover {
+            background: #5a6268;
+        }
+
+        .chart-container {
+            position: relative;
+            min-height: 400px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+
+        .error {
+            color: #dc3545;
+            padding: 10px;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        svg {
+            width: 100%;
+            height: 400px;
+        }
+
+        .chart-title {
+            text-align: center;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            button {
+                align-self: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Data Plotter</h1>
+        <p class="subtitle">Enter data in the table below and plot any two columns against each other</p>
+
+        <div class="section">
+            <h2>Data Table</h2>
+            <div class="table-container">
+                <table id="dataTable">
+                    <thead>
+                        <tr id="headerRow"></tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <div class="button-group">
+                <button onclick="addRow()">Add Row</button>
+                <button onclick="addColumn()" class="secondary">Add Column</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Plot Settings</h2>
+            <div id="errorMessage" class="error" style="display: none;"></div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="xAxis">X-Axis Column:</label>
+                    <select id="xAxis"></select>
+                </div>
+                <div class="control-group">
+                    <label for="yAxis">Y-Axis Column:</label>
+                    <select id="yAxis"></select>
+                </div>
+                <button onclick="plotData()">Plot Data</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Chart</h2>
+            <div id="chartTitle" class="chart-title"></div>
+            <div class="chart-container">
+                <svg id="chartSvg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                    <text x="400" y="200" text-anchor="middle" fill="#999" font-size="18">
+                        Click "Plot Data" to generate chart
+                    </text>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let columnCount = 3;
+        let rowCount = 5;
+
+        // Initialize table with default data
+        function initTable() {
+            const headerRow = document.getElementById('headerRow');
+            const tableBody = document.getElementById('tableBody');
+            
+            // Create headers
+            headerRow.innerHTML = '';
+            for (let i = 0; i < columnCount; i++) {
+                const th = document.createElement('th');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = `Column ${i + 1}`;
+                input.onchange = updateAxisSelectors;
+                th.appendChild(input);
+                headerRow.appendChild(th);
+            }
+
+            // Create rows with sample data
+            tableBody.innerHTML = '';
+            for (let i = 0; i < rowCount; i++) {
+                addRow(i === 0 ? [1, 10, 20] : i === 1 ? [2, 15, 35] : i === 2 ? [3, 25, 45] : i === 3 ? [4, 30, 55] : [5, 40, 70]);
+            }
+
+            updateAxisSelectors();
+        }
+
+        function addRow(initialData = null) {
+            const tableBody = document.getElementById('tableBody');
+            const row = document.createElement('tr');
+            
+            for (let i = 0; i < columnCount; i++) {
+                const td = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = initialData && initialData[i] !== undefined ? initialData[i] : '';
+                td.appendChild(input);
+                row.appendChild(td);
+            }
+            
+            tableBody.appendChild(row);
+        }
+
+        function addColumn() {
+            columnCount++;
+            
+            // Add header
+            const headerRow = document.getElementById('headerRow');
+            const th = document.createElement('th');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = `Column ${columnCount}`;
+            input.onchange = updateAxisSelectors;
+            th.appendChild(input);
+            headerRow.appendChild(th);
+
+            // Add cells to existing rows
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(row => {
+                const td = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = '';
+                td.appendChild(input);
+                row.appendChild(td);
+            });
+
+            updateAxisSelectors();
+        }
+
+        function updateAxisSelectors() {
+            const xAxis = document.getElementById('xAxis');
+            const yAxis = document.getElementById('yAxis');
+            
+            const currentX = xAxis.value;
+            const currentY = yAxis.value;
+            
+            xAxis.innerHTML = '';
+            yAxis.innerHTML = '';
+
+            const headers = document.querySelectorAll('#headerRow input');
+            headers.forEach((header, index) => {
+                const option1 = document.createElement('option');
+                option1.value = index;
+                option1.textContent = header.value || `Column ${index + 1}`;
+                xAxis.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = index;
+                option2.textContent = header.value || `Column ${index + 1}`;
+                yAxis.appendChild(option2);
+            });
+
+            // Restore previous selections or set defaults
+            if (currentX !== '' && currentX < columnCount) {
+                xAxis.value = currentX;
+            } else {
+                xAxis.value = 0;
+            }
+
+            if (currentY !== '' && currentY < columnCount) {
+                yAxis.value = currentY;
+            } else {
+                yAxis.value = Math.min(1, columnCount - 1);
+            }
+        }
+
+        function getTableData() {
+            const headers = Array.from(document.querySelectorAll('#headerRow input')).map(input => input.value);
+            const rows = document.querySelectorAll('#tableBody tr');
+            const data = [];
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('input');
+                const rowData = Array.from(cells).map(input => input.value);
+                if (rowData.some(val => val.trim() !== '')) {
+                    data.push(rowData);
+                }
+            });
+
+            return { headers, data };
+        }
+
+        function plotData() {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none';
+
+            const xAxisIndex = parseInt(document.getElementById('xAxis').value);
+            const yAxisIndex = parseInt(document.getElementById('yAxis').value);
+            
+            const { headers, data } = getTableData();
+
+            if (data.length === 0) {
+                errorMessage.textContent = 'No data to plot. Please enter some values in the table.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            const xData = [];
+            const yData = [];
+
+            data.forEach((row, index) => {
+                const xVal = parseFloat(row[xAxisIndex]);
+                const yVal = parseFloat(row[yAxisIndex]);
+                
+                if (!isNaN(xVal) && !isNaN(yVal)) {
+                    xData.push(xVal);
+                    yData.push(yVal);
+                }
+            });
+
+            if (xData.length === 0) {
+                errorMessage.textContent = 'No valid numeric data found in selected columns.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Update chart title
+            document.getElementById('chartTitle').textContent = `${headers[yAxisIndex]} vs ${headers[xAxisIndex]}`;
+
+            // Draw the chart
+            drawChart(xData, yData, headers[xAxisIndex], headers[yAxisIndex]);
+        }
+
+        function drawChart(xData, yData, xLabel, yLabel) {
+            const svg = document.getElementById('chartSvg');
+            const width = 800;
+            const height = 400;
+            const padding = { top: 20, right: 40, bottom: 60, left: 70 };
+            
+            const plotWidth = width - padding.left - padding.right;
+            const plotHeight = height - padding.top - padding.bottom;
+
+            // Calculate min and max values
+            const xMin = Math.min(...xData);
+            const xMax = Math.max(...xData);
+            const yMin = Math.min(...yData);
+            const yMax = Math.max(...yData);
+
+            // Add some padding to the ranges
+            const xRange = xMax - xMin || 1;
+            const yRange = yMax - yMin || 1;
+            const xPadding = xRange * 0.1;
+            const yPadding = yRange * 0.1;
+
+            const xStart = xMin - xPadding;
+            const xEnd = xMax + xPadding;
+            const yStart = yMin - yPadding;
+            const yEnd = yMax + yPadding;
+
+            // Scale functions
+            const scaleX = (x) => padding.left + ((x - xStart) / (xEnd - xStart)) * plotWidth;
+            const scaleY = (y) => height - padding.bottom - ((y - yStart) / (yEnd - yStart)) * plotHeight;
+
+            // Clear SVG
+            svg.innerHTML = '';
+
+            // Draw axes
+            const axisGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            
+            // X-axis
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding.left);
+            xAxis.setAttribute('y1', height - padding.bottom);
+            xAxis.setAttribute('x2', width - padding.right);
+            xAxis.setAttribute('y2', height - padding.bottom);
+            xAxis.setAttribute('stroke', '#333');
+            xAxis.setAttribute('stroke-width', '2');
+            axisGroup.appendChild(xAxis);
+
+            // Y-axis
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', padding.left);
+            yAxis.setAttribute('y1', padding.top);
+            yAxis.setAttribute('x2', padding.left);
+            yAxis.setAttribute('y2', height - padding.bottom);
+            yAxis.setAttribute('stroke', '#333');
+            yAxis.setAttribute('stroke-width', '2');
+            axisGroup.appendChild(yAxis);
+
+            // Draw grid lines and ticks
+            const numTicks = 5;
+            for (let i = 0; i <= numTicks; i++) {
+                // X-axis ticks and labels
+                const xVal = xStart + (xEnd - xStart) * (i / numTicks);
+                const xPos = scaleX(xVal);
+                
+                const xTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                xTick.setAttribute('x1', xPos);
+                xTick.setAttribute('y1', height - padding.bottom);
+                xTick.setAttribute('x2', xPos);
+                xTick.setAttribute('y2', height - padding.bottom + 5);
+                xTick.setAttribute('stroke', '#333');
+                xTick.setAttribute('stroke-width', '1');
+                axisGroup.appendChild(xTick);
+
+                const xText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xText.setAttribute('x', xPos);
+                xText.setAttribute('y', height - padding.bottom + 20);
+                xText.setAttribute('text-anchor', 'middle');
+                xText.setAttribute('fill', '#666');
+                xText.setAttribute('font-size', '12');
+                xText.textContent = xVal.toFixed(1);
+                axisGroup.appendChild(xText);
+
+                // Grid line for x
+                const xGrid = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                xGrid.setAttribute('x1', xPos);
+                xGrid.setAttribute('y1', padding.top);
+                xGrid.setAttribute('x2', xPos);
+                xGrid.setAttribute('y2', height - padding.bottom);
+                xGrid.setAttribute('stroke', '#e0e0e0');
+                xGrid.setAttribute('stroke-width', '1');
+                xGrid.setAttribute('stroke-dasharray', '3,3');
+                svg.appendChild(xGrid);
+
+                // Y-axis ticks and labels
+                const yVal = yStart + (yEnd - yStart) * (i / numTicks);
+                const yPos = scaleY(yVal);
+                
+                const yTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                yTick.setAttribute('x1', padding.left - 5);
+                yTick.setAttribute('y1', yPos);
+                yTick.setAttribute('x2', padding.left);
+                yTick.setAttribute('y2', yPos);
+                yTick.setAttribute('stroke', '#333');
+                yTick.setAttribute('stroke-width', '1');
+                axisGroup.appendChild(yTick);
+
+                const yText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                yText.setAttribute('x', padding.left - 10);
+                yText.setAttribute('y', yPos + 4);
+                yText.setAttribute('text-anchor', 'end');
+                yText.setAttribute('fill', '#666');
+                yText.setAttribute('font-size', '12');
+                yText.textContent = yVal.toFixed(1);
+                axisGroup.appendChild(yText);
+
+                // Grid line for y
+                const yGrid = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                yGrid.setAttribute('x1', padding.left);
+                yGrid.setAttribute('y1', yPos);
+                yGrid.setAttribute('x2', width - padding.right);
+                yGrid.setAttribute('y2', yPos);
+                yGrid.setAttribute('stroke', '#e0e0e0');
+                yGrid.setAttribute('stroke-width', '1');
+                yGrid.setAttribute('stroke-dasharray', '3,3');
+                svg.appendChild(yGrid);
+            }
+
+            // Draw line connecting points
+            if (xData.length > 1) {
+                let pathData = '';
+                for (let i = 0; i < xData.length; i++) {
+                    const x = scaleX(xData[i]);
+                    const y = scaleY(yData[i]);
+                    pathData += (i === 0 ? 'M' : 'L') + x + ',' + y;
+                }
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathData);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', '#667eea');
+                path.setAttribute('stroke-width', '2');
+                svg.appendChild(path);
+            }
+
+            // Draw points
+            xData.forEach((x, i) => {
+                const cx = scaleX(x);
+                const cy = scaleY(yData[i]);
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', cx);
+                circle.setAttribute('cy', cy);
+                circle.setAttribute('r', '5');
+                circle.setAttribute('fill', '#667eea');
+                circle.setAttribute('stroke', 'white');
+                circle.setAttribute('stroke-width', '2');
+                
+                // Add tooltip
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                title.textContent = `(${x.toFixed(2)}, ${yData[i].toFixed(2)})`;
+                circle.appendChild(title);
+                
+                svg.appendChild(circle);
+            });
+
+            // Add axes last so they appear on top
+            svg.appendChild(axisGroup);
+
+            // Add axis labels
+            const xLabelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xLabelText.setAttribute('x', width / 2);
+            xLabelText.setAttribute('y', height - 10);
+            xLabelText.setAttribute('text-anchor', 'middle');
+            xLabelText.setAttribute('fill', '#444');
+            xLabelText.setAttribute('font-size', '14');
+            xLabelText.setAttribute('font-weight', 'bold');
+            xLabelText.textContent = xLabel;
+            svg.appendChild(xLabelText);
+
+            const yLabelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yLabelText.setAttribute('x', -(height / 2));
+            yLabelText.setAttribute('y', 15);
+            yLabelText.setAttribute('text-anchor', 'middle');
+            yLabelText.setAttribute('fill', '#444');
+            yLabelText.setAttribute('font-size', '14');
+            yLabelText.setAttribute('font-weight', 'bold');
+            yLabelText.setAttribute('transform', 'rotate(-90)');
+            yLabelText.textContent = yLabel;
+            svg.appendChild(yLabelText);
+        }
+
+        // Initialize on page load
+        initTable();
+    </script>
+</body>
+</html>
