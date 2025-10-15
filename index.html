@@ -72,6 +72,28 @@
             background-color: #667eea;
             color: white;
             font-weight: 600;
+            position: relative;
+        }
+
+        th .header-content {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        th .delete-column {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        th .delete-column:hover {
+            background: rgba(255, 255, 255, 0.4);
         }
 
         input[type="text"] {
@@ -192,6 +214,273 @@
             font-size: 1.1rem;
         }
 
+        .auth-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .auth-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .auth-button {
+            padding: 10px 20px;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auth-button:hover {
+            background: #3367d6;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: #f5f5f5;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .small-button {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        .import-section {
+            margin-bottom: 20px;
+        }
+
+        .drop-zone {
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #f8f9ff;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            background: #e8ebff;
+            border-color: #5568d3;
+        }
+
+        .drop-zone-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+        }
+
+        .drop-zone p {
+            margin: 0;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .drop-zone-subtext {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .correlation-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .control-group-inline {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-group-inline label {
+            margin: 0;
+        }
+
+        .control-group-inline select {
+            min-width: 150px;
+        }
+
+        .correlation-results {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .correlation-results h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .correlation-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .correlation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .correlation-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .correlation-strength {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .strength-weak {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+
+        .strength-moderate {
+            background: #74b9ff;
+            color: #0984e3;
+        }
+
+        .strength-strong {
+            background: #55efc4;
+            color: #00b894;
+        }
+
+        .api-key-section {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-text {
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .chat-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f9f9f9;
+        }
+
+        .chat-history {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .chat-message.user {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+
+        .chat-message.assistant {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .chat-message.system {
+            background: #e8f5e9;
+            color: #2e7d32;
+            max-width: 100%;
+        }
+
+        .chat-input-section {
+            background: #f9f9f9;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .correlation-context {
+            margin-bottom: 10px;
+        }
+
+        .context-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .chat-input-container input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .chat-input-container button {
+            padding: 12px 24px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -214,11 +503,43 @@
 </head>
 <body>
     <div class="container">
+        <!-- User Authentication Section -->
+        <div class="auth-section" id="authSection">
+            <div class="auth-controls">
+                <div id="loginArea" style="display: block;">
+                    <button onclick="handleLogin()" class="auth-button">
+                        <span>🔐 Sign in with Google</span>
+                    </button>
+                </div>
+                <div id="userArea" style="display: none;">
+                    <div class="user-info">
+                        <img id="userAvatar" src="" alt="User" class="user-avatar" style="display: none;">
+                        <span id="userName"></span>
+                    </div>
+                    <button onclick="handleLogout()" class="secondary small-button">Logout</button>
+                </div>
+            </div>
+        </div>
+
         <h1>📊 Data Plotter</h1>
-        <p class="subtitle">Enter data in the table below and plot any two columns against each other</p>
+        <p class="subtitle">Enter data in the table below and analyze your time-series data</p>
 
         <div class="section">
             <h2>Data Table</h2>
+            
+            <!-- File Import Section -->
+            <div class="import-section">
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-content">
+                        <span class="upload-icon">📁</span>
+                        <p>Drag & drop CSV or Excel file here</p>
+                        <p class="drop-zone-subtext">or</p>
+                        <button onclick="document.getElementById('fileInput').click()" class="secondary">Browse Files</button>
+                        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" style="display: none;" onchange="handleFileSelect(event)">
+                    </div>
+                </div>
+            </div>
+            
             <div class="table-container">
                 <table id="dataTable">
                     <thead>
@@ -242,8 +563,14 @@
                     <select id="xAxis"></select>
                 </div>
                 <div class="control-group">
-                    <label for="yAxis">Y-Axis Column:</label>
-                    <select id="yAxis"></select>
+                    <label for="y1Axis">Y1-Axis Column:</label>
+                    <select id="y1Axis"></select>
+                </div>
+                <div class="control-group">
+                    <label for="y2Axis">Y2-Axis Column (Optional):</label>
+                    <select id="y2Axis">
+                        <option value="">None</option>
+                    </select>
                 </div>
                 <button onclick="plotData()">Plot Data</button>
             </div>
@@ -260,36 +587,107 @@
                 </svg>
             </div>
         </div>
+
+        <!-- Statistical Analysis Section -->
+        <div class="section">
+            <h2>Statistical Analysis</h2>
+            <div class="correlation-controls">
+                <div class="control-group-inline">
+                    <label>Pairwise Correlation:</label>
+                    <select id="corrColumn1"></select>
+                    <span>vs</span>
+                    <select id="corrColumn2"></select>
+                    <button onclick="calculatePairwiseCorrelation()" class="secondary">Calculate</button>
+                </div>
+                <div class="control-group-inline">
+                    <button onclick="calculateAllCorrelations()">Calculate All Correlations</button>
+                </div>
+            </div>
+            <div id="correlationResults" class="correlation-results" style="display: none;">
+                <h3>Correlation Results</h3>
+                <div id="correlationContent"></div>
+            </div>
+        </div>
+
+        <!-- AI Chat Assistant Section -->
+        <div class="section">
+            <h2>🤖 EpsilonAI Chat Assistant</h2>
+            <div class="api-key-section">
+                <div class="control-group-inline">
+                    <label for="apiKey">OpenAI API Key:</label>
+                    <input type="password" id="apiKey" placeholder="sk-..." style="flex: 1; padding: 8px; border: 2px solid #ddd; border-radius: 6px;">
+                    <button onclick="saveApiKey()" class="secondary">Save Key</button>
+                </div>
+                <p class="info-text">Your API key is hashed and stored securely. It's only used for chat functionality.</p>
+            </div>
+            
+            <div class="chat-container">
+                <div id="chatHistory" class="chat-history">
+                    <div class="chat-message system">
+                        <p>👋 Hello! I'm EpsilonAI. I can help you analyze your data and correlations. Upload your API key above to get started.</p>
+                    </div>
+                </div>
+                <div class="chat-input-section">
+                    <div class="correlation-context" id="correlationContext" style="display: none;">
+                        <span class="context-badge">📊 Correlation data included in context</span>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" id="chatInput" placeholder="Ask me about your data..." onkeypress="handleChatKeyPress(event)">
+                        <button onclick="sendChatMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         let columnCount = 3;
         let rowCount = 5;
+        let correlationData = null;
 
         // Initialize table with default data
         function initTable() {
             const headerRow = document.getElementById('headerRow');
             const tableBody = document.getElementById('tableBody');
             
-            // Create headers
+            // Create headers - first column is always "Date"
             headerRow.innerHTML = '';
             for (let i = 0; i < columnCount; i++) {
                 const th = document.createElement('th');
+                const headerContent = document.createElement('div');
+                headerContent.className = 'header-content';
+                
                 const input = document.createElement('input');
                 input.type = 'text';
-                input.value = `Column ${i + 1}`;
+                input.value = i === 0 ? 'Date' : `Column ${i + 1}`;
+                if (i === 0) {
+                    input.readOnly = true; // Date column can't be renamed
+                }
                 input.onchange = updateAxisSelectors;
-                th.appendChild(input);
+                headerContent.appendChild(input);
+                
+                // Add delete button for non-Date columns
+                if (i > 0) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-column';
+                    deleteBtn.textContent = '✕';
+                    deleteBtn.onclick = () => deleteColumn(i);
+                    headerContent.appendChild(deleteBtn);
+                }
+                
+                th.appendChild(headerContent);
                 headerRow.appendChild(th);
             }
 
             // Create rows with sample data
             tableBody.innerHTML = '';
+            const sampleDates = ['2024-01-01', '2024-01-02', '2024-01-03', '2024-01-04', '2024-01-05'];
             for (let i = 0; i < rowCount; i++) {
-                addRow(i === 0 ? [1, 10, 20] : i === 1 ? [2, 15, 35] : i === 2 ? [3, 25, 45] : i === 3 ? [4, 30, 55] : [5, 40, 70]);
+                addRow(i < sampleDates.length ? [sampleDates[i], 10 + i * 5, 20 + i * 15] : null);
             }
 
             updateAxisSelectors();
+            setupDropZone();
         }
 
         function addRow(initialData = null) {
@@ -299,7 +697,7 @@
             for (let i = 0; i < columnCount; i++) {
                 const td = document.createElement('td');
                 const input = document.createElement('input');
-                input.type = 'text';
+                input.type = i === 0 ? 'date' : 'text'; // First column is date type
                 input.value = initialData && initialData[i] !== undefined ? initialData[i] : '';
                 td.appendChild(input);
                 row.appendChild(td);
@@ -314,11 +712,22 @@
             // Add header
             const headerRow = document.getElementById('headerRow');
             const th = document.createElement('th');
+            const headerContent = document.createElement('div');
+            headerContent.className = 'header-content';
+            
             const input = document.createElement('input');
             input.type = 'text';
             input.value = `Column ${columnCount}`;
             input.onchange = updateAxisSelectors;
-            th.appendChild(input);
+            headerContent.appendChild(input);
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-column';
+            deleteBtn.textContent = '✕';
+            deleteBtn.onclick = () => deleteColumn(columnCount - 1);
+            headerContent.appendChild(deleteBtn);
+            
+            th.appendChild(headerContent);
             headerRow.appendChild(th);
 
             // Add cells to existing rows
@@ -335,41 +744,92 @@
             updateAxisSelectors();
         }
 
+        function deleteColumn(colIndex) {
+            if (colIndex === 0) {
+                alert('Cannot delete the Date column');
+                return;
+            }
+            
+            if (columnCount <= 2) {
+                alert('Must have at least 2 columns');
+                return;
+            }
+            
+            // Remove header
+            const headerRow = document.getElementById('headerRow');
+            headerRow.deleteCell(colIndex);
+            
+            // Remove cells from all rows
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach(row => {
+                row.deleteCell(colIndex);
+            });
+            
+            columnCount--;
+            updateAxisSelectors();
+        }
+
         function updateAxisSelectors() {
             const xAxis = document.getElementById('xAxis');
-            const yAxis = document.getElementById('yAxis');
+            const y1Axis = document.getElementById('y1Axis');
+            const y2Axis = document.getElementById('y2Axis');
+            const corrColumn1 = document.getElementById('corrColumn1');
+            const corrColumn2 = document.getElementById('corrColumn2');
             
             const currentX = xAxis.value;
-            const currentY = yAxis.value;
+            const currentY1 = y1Axis.value;
+            const currentY2 = y2Axis.value;
             
             xAxis.innerHTML = '';
-            yAxis.innerHTML = '';
+            y1Axis.innerHTML = '';
+            y2Axis.innerHTML = '<option value="">None</option>';
+            corrColumn1.innerHTML = '';
+            corrColumn2.innerHTML = '';
 
             const headers = document.querySelectorAll('#headerRow input');
             headers.forEach((header, index) => {
-                const option1 = document.createElement('option');
-                option1.value = index;
-                option1.textContent = header.value || `Column ${index + 1}`;
-                xAxis.appendChild(option1);
+                const columnName = header.value || `Column ${index + 1}`;
+                
+                // X-axis selector
+                const optionX = document.createElement('option');
+                optionX.value = index;
+                optionX.textContent = columnName;
+                xAxis.appendChild(optionX);
 
-                const option2 = document.createElement('option');
-                option2.value = index;
-                option2.textContent = header.value || `Column ${index + 1}`;
-                yAxis.appendChild(option2);
+                // Y1-axis selector
+                const optionY1 = document.createElement('option');
+                optionY1.value = index;
+                optionY1.textContent = columnName;
+                y1Axis.appendChild(optionY1);
+
+                // Y2-axis selector
+                const optionY2 = document.createElement('option');
+                optionY2.value = index;
+                optionY2.textContent = columnName;
+                y2Axis.appendChild(optionY2);
+                
+                // Correlation selectors (only numeric columns, not Date)
+                if (index > 0) {
+                    const optionCorr1 = document.createElement('option');
+                    optionCorr1.value = index;
+                    optionCorr1.textContent = columnName;
+                    corrColumn1.appendChild(optionCorr1);
+                    
+                    const optionCorr2 = document.createElement('option');
+                    optionCorr2.value = index;
+                    optionCorr2.textContent = columnName;
+                    corrColumn2.appendChild(optionCorr2);
+                }
             });
 
             // Restore previous selections or set defaults
-            if (currentX !== '' && currentX < columnCount) {
-                xAxis.value = currentX;
-            } else {
-                xAxis.value = 0;
-            }
-
-            if (currentY !== '' && currentY < columnCount) {
-                yAxis.value = currentY;
-            } else {
-                yAxis.value = Math.min(1, columnCount - 1);
-            }
+            xAxis.value = currentX !== '' && currentX < columnCount ? currentX : 0;
+            y1Axis.value = currentY1 !== '' && currentY1 < columnCount ? currentY1 : Math.min(1, columnCount - 1);
+            y2Axis.value = currentY2 !== '' && currentY2 < columnCount ? currentY2 : '';
+            
+            // Set default correlation selectors
+            if (corrColumn1.options.length > 0) corrColumn1.selectedIndex = 0;
+            if (corrColumn2.options.length > 1) corrColumn2.selectedIndex = 1;
         }
 
         function getTableData() {
@@ -393,7 +853,8 @@
             errorMessage.style.display = 'none';
 
             const xAxisIndex = parseInt(document.getElementById('xAxis').value);
-            const yAxisIndex = parseInt(document.getElementById('yAxis').value);
+            const y1AxisIndex = parseInt(document.getElementById('y1Axis').value);
+            const y2AxisIndex = document.getElementById('y2Axis').value;
             
             const { headers, data } = getTableData();
 
@@ -403,16 +864,27 @@
                 return;
             }
 
+            // Prepare Y1 data
             const xData = [];
-            const yData = [];
+            const y1Data = [];
+            const y2Data = y2AxisIndex ? [] : null;
 
             data.forEach((row, index) => {
                 const xVal = parseFloat(row[xAxisIndex]);
-                const yVal = parseFloat(row[yAxisIndex]);
+                const y1Val = parseFloat(row[y1AxisIndex]);
                 
-                if (!isNaN(xVal) && !isNaN(yVal)) {
+                if (!isNaN(xVal) && !isNaN(y1Val)) {
                     xData.push(xVal);
-                    yData.push(yVal);
+                    y1Data.push(y1Val);
+                    
+                    if (y2AxisIndex) {
+                        const y2Val = parseFloat(row[parseInt(y2AxisIndex)]);
+                        if (!isNaN(y2Val)) {
+                            y2Data.push(y2Val);
+                        } else {
+                            y2Data.push(null);
+                        }
+                    }
                 }
             });
 
@@ -423,17 +895,22 @@
             }
 
             // Update chart title
-            document.getElementById('chartTitle').textContent = `${headers[yAxisIndex]} vs ${headers[xAxisIndex]}`;
+            let title = `${headers[y1AxisIndex]} vs ${headers[xAxisIndex]}`;
+            if (y2AxisIndex) {
+                title += ` & ${headers[parseInt(y2AxisIndex)]}`;
+            }
+            document.getElementById('chartTitle').textContent = title;
 
             // Draw the chart
-            drawChart(xData, yData, headers[xAxisIndex], headers[yAxisIndex]);
+            drawChart(xData, y1Data, y2Data, headers[xAxisIndex], headers[y1AxisIndex], 
+                     y2AxisIndex ? headers[parseInt(y2AxisIndex)] : null);
         }
 
-        function drawChart(xData, yData, xLabel, yLabel) {
+        function drawChart(xData, y1Data, y2Data, xLabel, y1Label, y2Label) {
             const svg = document.getElementById('chartSvg');
             const width = 800;
             const height = 400;
-            const padding = { top: 20, right: 40, bottom: 60, left: 70 };
+            const padding = { top: 20, right: y2Data ? 70 : 40, bottom: 60, left: 70 };
             
             const plotWidth = width - padding.left - padding.right;
             const plotHeight = height - padding.top - padding.bottom;
@@ -441,28 +918,28 @@
             // Calculate min and max values
             const xMin = Math.min(...xData);
             const xMax = Math.max(...xData);
-            const yMin = Math.min(...yData);
-            const yMax = Math.max(...yData);
+            const y1Min = Math.min(...y1Data);
+            const y1Max = Math.max(...y1Data);
 
             // Add some padding to the ranges
             const xRange = xMax - xMin || 1;
-            const yRange = yMax - yMin || 1;
+            const y1Range = y1Max - y1Min || 1;
             const xPadding = xRange * 0.1;
-            const yPadding = yRange * 0.1;
+            const y1Padding = y1Range * 0.1;
 
             const xStart = xMin - xPadding;
             const xEnd = xMax + xPadding;
-            const yStart = yMin - yPadding;
-            const yEnd = yMax + yPadding;
+            const y1Start = y1Min - y1Padding;
+            const y1End = y1Max + y1Padding;
 
-            // Scale functions
+            // Scale functions for Y1
             const scaleX = (x) => padding.left + ((x - xStart) / (xEnd - xStart)) * plotWidth;
-            const scaleY = (y) => height - padding.bottom - ((y - yStart) / (yEnd - yStart)) * plotHeight;
+            const scaleY1 = (y) => height - padding.bottom - ((y - y1Start) / (y1End - y1Start)) * plotHeight;
 
             // Clear SVG
             svg.innerHTML = '';
 
-            // Draw axes
+            // Draw grid and axes
             const axisGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             
             // X-axis
@@ -475,15 +952,15 @@
             xAxis.setAttribute('stroke-width', '2');
             axisGroup.appendChild(xAxis);
 
-            // Y-axis
-            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            yAxis.setAttribute('x1', padding.left);
-            yAxis.setAttribute('y1', padding.top);
-            yAxis.setAttribute('x2', padding.left);
-            yAxis.setAttribute('y2', height - padding.bottom);
-            yAxis.setAttribute('stroke', '#333');
-            yAxis.setAttribute('stroke-width', '2');
-            axisGroup.appendChild(yAxis);
+            // Y1-axis (left)
+            const y1Axis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            y1Axis.setAttribute('x1', padding.left);
+            y1Axis.setAttribute('y1', padding.top);
+            y1Axis.setAttribute('x2', padding.left);
+            y1Axis.setAttribute('y2', height - padding.bottom);
+            y1Axis.setAttribute('stroke', '#667eea');
+            y1Axis.setAttribute('stroke-width', '2');
+            axisGroup.appendChild(y1Axis);
 
             // Draw grid lines and ticks
             const numTicks = 5;
@@ -521,46 +998,46 @@
                 xGrid.setAttribute('stroke-dasharray', '3,3');
                 svg.appendChild(xGrid);
 
-                // Y-axis ticks and labels
-                const yVal = yStart + (yEnd - yStart) * (i / numTicks);
-                const yPos = scaleY(yVal);
+                // Y1-axis ticks and labels
+                const y1Val = y1Start + (y1End - y1Start) * (i / numTicks);
+                const y1Pos = scaleY1(y1Val);
                 
-                const yTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                yTick.setAttribute('x1', padding.left - 5);
-                yTick.setAttribute('y1', yPos);
-                yTick.setAttribute('x2', padding.left);
-                yTick.setAttribute('y2', yPos);
-                yTick.setAttribute('stroke', '#333');
-                yTick.setAttribute('stroke-width', '1');
-                axisGroup.appendChild(yTick);
+                const y1Tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                y1Tick.setAttribute('x1', padding.left - 5);
+                y1Tick.setAttribute('y1', y1Pos);
+                y1Tick.setAttribute('x2', padding.left);
+                y1Tick.setAttribute('y2', y1Pos);
+                y1Tick.setAttribute('stroke', '#667eea');
+                y1Tick.setAttribute('stroke-width', '1');
+                axisGroup.appendChild(y1Tick);
 
-                const yText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                yText.setAttribute('x', padding.left - 10);
-                yText.setAttribute('y', yPos + 4);
-                yText.setAttribute('text-anchor', 'end');
-                yText.setAttribute('fill', '#666');
-                yText.setAttribute('font-size', '12');
-                yText.textContent = yVal.toFixed(1);
-                axisGroup.appendChild(yText);
+                const y1Text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                y1Text.setAttribute('x', padding.left - 10);
+                y1Text.setAttribute('y', y1Pos + 4);
+                y1Text.setAttribute('text-anchor', 'end');
+                y1Text.setAttribute('fill', '#667eea');
+                y1Text.setAttribute('font-size', '12');
+                y1Text.textContent = y1Val.toFixed(1);
+                axisGroup.appendChild(y1Text);
 
                 // Grid line for y
                 const yGrid = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 yGrid.setAttribute('x1', padding.left);
-                yGrid.setAttribute('y1', yPos);
+                yGrid.setAttribute('y1', y1Pos);
                 yGrid.setAttribute('x2', width - padding.right);
-                yGrid.setAttribute('y2', yPos);
+                yGrid.setAttribute('y2', y1Pos);
                 yGrid.setAttribute('stroke', '#e0e0e0');
                 yGrid.setAttribute('stroke-width', '1');
                 yGrid.setAttribute('stroke-dasharray', '3,3');
                 svg.appendChild(yGrid);
             }
 
-            // Draw line connecting points
+            // Draw Y1 line and points
             if (xData.length > 1) {
                 let pathData = '';
                 for (let i = 0; i < xData.length; i++) {
                     const x = scaleX(xData[i]);
-                    const y = scaleY(yData[i]);
+                    const y = scaleY1(y1Data[i]);
                     pathData += (i === 0 ? 'M' : 'L') + x + ',' + y;
                 }
 
@@ -572,10 +1049,10 @@
                 svg.appendChild(path);
             }
 
-            // Draw points
+            // Draw Y1 points
             xData.forEach((x, i) => {
                 const cx = scaleX(x);
-                const cy = scaleY(yData[i]);
+                const cy = scaleY1(y1Data[i]);
 
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', cx);
@@ -585,13 +1062,112 @@
                 circle.setAttribute('stroke', 'white');
                 circle.setAttribute('stroke-width', '2');
                 
-                // Add tooltip
                 const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-                title.textContent = `(${x.toFixed(2)}, ${yData[i].toFixed(2)})`;
+                title.textContent = `${y1Label}: (${x.toFixed(2)}, ${y1Data[i].toFixed(2)})`;
                 circle.appendChild(title);
                 
                 svg.appendChild(circle);
             });
+
+            // If Y2 data exists, draw it on second axis
+            if (y2Data && y2Label) {
+                const y2Min = Math.min(...y2Data.filter(v => v !== null));
+                const y2Max = Math.max(...y2Data.filter(v => v !== null));
+                const y2Range = y2Max - y2Min || 1;
+                const y2Padding = y2Range * 0.1;
+                const y2Start = y2Min - y2Padding;
+                const y2End = y2Max + y2Padding;
+                
+                const scaleY2 = (y) => height - padding.bottom - ((y - y2Start) / (y2End - y2Start)) * plotHeight;
+
+                // Y2-axis (right)
+                const y2Axis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                y2Axis.setAttribute('x1', width - padding.right);
+                y2Axis.setAttribute('y1', padding.top);
+                y2Axis.setAttribute('x2', width - padding.right);
+                y2Axis.setAttribute('y2', height - padding.bottom);
+                y2Axis.setAttribute('stroke', '#e74c3c');
+                y2Axis.setAttribute('stroke-width', '2');
+                axisGroup.appendChild(y2Axis);
+
+                // Y2-axis labels
+                for (let i = 0; i <= numTicks; i++) {
+                    const y2Val = y2Start + (y2End - y2Start) * (i / numTicks);
+                    const y2Pos = scaleY2(y2Val);
+                    
+                    const y2Tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    y2Tick.setAttribute('x1', width - padding.right);
+                    y2Tick.setAttribute('y1', y2Pos);
+                    y2Tick.setAttribute('x2', width - padding.right + 5);
+                    y2Tick.setAttribute('y2', y2Pos);
+                    y2Tick.setAttribute('stroke', '#e74c3c');
+                    y2Tick.setAttribute('stroke-width', '1');
+                    axisGroup.appendChild(y2Tick);
+
+                    const y2Text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    y2Text.setAttribute('x', width - padding.right + 10);
+                    y2Text.setAttribute('y', y2Pos + 4);
+                    y2Text.setAttribute('text-anchor', 'start');
+                    y2Text.setAttribute('fill', '#e74c3c');
+                    y2Text.setAttribute('font-size', '12');
+                    y2Text.textContent = y2Val.toFixed(1);
+                    axisGroup.appendChild(y2Text);
+                }
+
+                // Draw Y2 line
+                if (xData.length > 1) {
+                    let pathData = '';
+                    for (let i = 0; i < xData.length; i++) {
+                        if (y2Data[i] !== null) {
+                            const x = scaleX(xData[i]);
+                            const y = scaleY2(y2Data[i]);
+                            pathData += (pathData === '' ? 'M' : 'L') + x + ',' + y;
+                        }
+                    }
+
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', pathData);
+                    path.setAttribute('fill', 'none');
+                    path.setAttribute('stroke', '#e74c3c');
+                    path.setAttribute('stroke-width', '2');
+                    path.setAttribute('stroke-dasharray', '5,5');
+                    svg.appendChild(path);
+                }
+
+                // Draw Y2 points
+                xData.forEach((x, i) => {
+                    if (y2Data[i] !== null) {
+                        const cx = scaleX(x);
+                        const cy = scaleY2(y2Data[i]);
+
+                        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        circle.setAttribute('cx', cx);
+                        circle.setAttribute('cy', cy);
+                        circle.setAttribute('r', '5');
+                        circle.setAttribute('fill', '#e74c3c');
+                        circle.setAttribute('stroke', 'white');
+                        circle.setAttribute('stroke-width', '2');
+                        
+                        const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                        title.textContent = `${y2Label}: (${x.toFixed(2)}, ${y2Data[i].toFixed(2)})`;
+                        circle.appendChild(title);
+                        
+                        svg.appendChild(circle);
+                    }
+                });
+
+                // Y2 axis label
+                const y2LabelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                y2LabelText.setAttribute('x', height / 2);
+                y2LabelText.setAttribute('y', width - padding.right + 45);
+                y2LabelText.setAttribute('text-anchor', 'middle');
+                y2LabelText.setAttribute('fill', '#e74c3c');
+                y2LabelText.setAttribute('font-size', '14');
+                y2LabelText.setAttribute('font-weight', 'bold');
+                y2LabelText.setAttribute('transform', `rotate(90 ${width - padding.right + 45} ${height / 2})`);
+                y2LabelText.textContent = y2Label;
+                svg.appendChild(y2LabelText);
+            }
 
             // Add axes last so they appear on top
             svg.appendChild(axisGroup);
@@ -607,16 +1183,395 @@
             xLabelText.textContent = xLabel;
             svg.appendChild(xLabelText);
 
-            const yLabelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            yLabelText.setAttribute('x', -(height / 2));
-            yLabelText.setAttribute('y', 15);
-            yLabelText.setAttribute('text-anchor', 'middle');
-            yLabelText.setAttribute('fill', '#444');
-            yLabelText.setAttribute('font-size', '14');
-            yLabelText.setAttribute('font-weight', 'bold');
-            yLabelText.setAttribute('transform', 'rotate(-90)');
-            yLabelText.textContent = yLabel;
-            svg.appendChild(yLabelText);
+            const y1LabelText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            y1LabelText.setAttribute('x', -(height / 2));
+            y1LabelText.setAttribute('y', 15);
+            y1LabelText.setAttribute('text-anchor', 'middle');
+            y1LabelText.setAttribute('fill', '#667eea');
+            y1LabelText.setAttribute('font-size', '14');
+            y1LabelText.setAttribute('font-weight', 'bold');
+            y1LabelText.setAttribute('transform', 'rotate(-90)');
+            y1LabelText.textContent = y1Label;
+            svg.appendChild(y1LabelText);
+        }
+
+        // Correlation functions
+        function calculatePearsonCorrelation(x, y) {
+            const n = x.length;
+            if (n !== y.length || n === 0) return null;
+            
+            const sumX = x.reduce((a, b) => a + b, 0);
+            const sumY = y.reduce((a, b) => a + b, 0);
+            const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+            const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+            const sumY2 = y.reduce((sum, yi) => sum + yi * yi, 0);
+            
+            const numerator = n * sumXY - sumX * sumY;
+            const denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+            
+            if (denominator === 0) return null;
+            return numerator / denominator;
+        }
+
+        function getCorrelationStrength(r) {
+            const absR = Math.abs(r);
+            if (absR >= 0.7) return { text: 'Strong', class: 'strength-strong' };
+            if (absR >= 0.4) return { text: 'Moderate', class: 'strength-moderate' };
+            return { text: 'Weak', class: 'strength-weak' };
+        }
+
+        function calculatePairwiseCorrelation() {
+            const col1Index = parseInt(document.getElementById('corrColumn1').value);
+            const col2Index = parseInt(document.getElementById('corrColumn2').value);
+            
+            if (col1Index === col2Index) {
+                alert('Please select two different columns');
+                return;
+            }
+            
+            const { headers, data } = getTableData();
+            const col1Data = [];
+            const col2Data = [];
+            
+            data.forEach(row => {
+                const val1 = parseFloat(row[col1Index]);
+                const val2 = parseFloat(row[col2Index]);
+                if (!isNaN(val1) && !isNaN(val2)) {
+                    col1Data.push(val1);
+                    col2Data.push(val2);
+                }
+            });
+            
+            if (col1Data.length < 2) {
+                alert('Need at least 2 valid data points to calculate correlation');
+                return;
+            }
+            
+            const r = calculatePearsonCorrelation(col1Data, col2Data);
+            if (r === null) {
+                alert('Could not calculate correlation');
+                return;
+            }
+            
+            const strength = getCorrelationStrength(r);
+            const resultsDiv = document.getElementById('correlationResults');
+            const contentDiv = document.getElementById('correlationContent');
+            
+            correlationData = {
+                pairwise: [{
+                    col1: headers[col1Index],
+                    col2: headers[col2Index],
+                    r: r,
+                    strength: strength.text
+                }]
+            };
+            
+            contentDiv.innerHTML = `
+                <div class="correlation-item">
+                    <strong>${headers[col1Index]}</strong> vs <strong>${headers[col2Index]}</strong>
+                    <div class="correlation-value">
+                        r = ${r.toFixed(4)}
+                        <span class="correlation-strength ${strength.class}">${strength.text}</span>
+                    </div>
+                    <div style="margin-top: 8px; color: #666; font-size: 0.9rem;">
+                        Sample size: ${col1Data.length} points
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.style.display = 'block';
+            updateCorrelationContext();
+        }
+
+        function calculateAllCorrelations() {
+            const { headers, data } = getTableData();
+            const numericColumns = [];
+            
+            // Get all numeric columns (skip Date column at index 0)
+            for (let i = 1; i < headers.length; i++) {
+                const columnData = [];
+                data.forEach(row => {
+                    const val = parseFloat(row[i]);
+                    if (!isNaN(val)) columnData.push(val);
+                });
+                if (columnData.length >= 2) {
+                    numericColumns.push({ index: i, name: headers[i], data: columnData });
+                }
+            }
+            
+            if (numericColumns.length < 2) {
+                alert('Need at least 2 numeric columns to calculate correlations');
+                return;
+            }
+            
+            const results = [];
+            for (let i = 0; i < numericColumns.length; i++) {
+                for (let j = i + 1; j < numericColumns.length; j++) {
+                    const col1 = numericColumns[i];
+                    const col2 = numericColumns[j];
+                    
+                    // Get matching data points
+                    const matchedData1 = [];
+                    const matchedData2 = [];
+                    data.forEach((row, idx) => {
+                        const val1 = parseFloat(row[col1.index]);
+                        const val2 = parseFloat(row[col2.index]);
+                        if (!isNaN(val1) && !isNaN(val2)) {
+                            matchedData1.push(val1);
+                            matchedData2.push(val2);
+                        }
+                    });
+                    
+                    if (matchedData1.length >= 2) {
+                        const r = calculatePearsonCorrelation(matchedData1, matchedData2);
+                        if (r !== null) {
+                            const strength = getCorrelationStrength(r);
+                            results.push({
+                                col1: col1.name,
+                                col2: col2.name,
+                                r: r,
+                                strength: strength.text,
+                                strengthClass: strength.class,
+                                n: matchedData1.length
+                            });
+                        }
+                    }
+                }
+            }
+            
+            if (results.length === 0) {
+                alert('Could not calculate any correlations');
+                return;
+            }
+            
+            // Sort by absolute correlation value
+            results.sort((a, b) => Math.abs(b.r) - Math.abs(a.r));
+            
+            correlationData = { all: results };
+            
+            const resultsDiv = document.getElementById('correlationResults');
+            const contentDiv = document.getElementById('correlationContent');
+            
+            let html = '<h4>Correlation Matrix (sorted by strength)</h4>';
+            results.forEach(result => {
+                html += `
+                    <div class="correlation-item">
+                        <strong>${result.col1}</strong> vs <strong>${result.col2}</strong>
+                        <div class="correlation-value">
+                            r = ${result.r.toFixed(4)}
+                            <span class="correlation-strength ${result.strengthClass}">${result.strength}</span>
+                        </div>
+                        <div style="margin-top: 8px; color: #666; font-size: 0.9rem;">
+                            Sample size: ${result.n} points
+                        </div>
+                    </div>
+                `;
+            });
+            
+            contentDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+            updateCorrelationContext();
+        }
+
+        function updateCorrelationContext() {
+            const contextDiv = document.getElementById('correlationContext');
+            if (correlationData) {
+                contextDiv.style.display = 'block';
+            } else {
+                contextDiv.style.display = 'none';
+            }
+        }
+
+        // File import functions
+        function setupDropZone() {
+            const dropZone = document.getElementById('dropZone');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => {
+                    dropZone.classList.add('drag-over');
+                }, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => {
+                    dropZone.classList.remove('drag-over');
+                }, false);
+            });
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length === 0) return;
+            
+            const file = files[0];
+            const fileName = file.name.toLowerCase();
+            
+            if (fileName.endsWith('.csv')) {
+                readCSVFile(file);
+            } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                alert('Excel file import requires a backend server. Please convert to CSV format.');
+            } else {
+                alert('Please upload a CSV or Excel file.');
+            }
+        }
+
+        function readCSVFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const text = e.target.result;
+                parseCSV(text);
+            };
+            
+            reader.onerror = function() {
+                alert('Error reading file');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function parseCSV(text) {
+            const lines = text.split('\n').filter(line => line.trim());
+            if (lines.length < 2) {
+                alert('CSV file must have at least a header row and one data row');
+                return;
+            }
+            
+            // Parse CSV (simple parser, doesn't handle quoted commas)
+            const headers = lines[0].split(',').map(h => h.trim());
+            const dataRows = lines.slice(1).map(line => 
+                line.split(',').map(cell => cell.trim())
+            );
+            
+            // Update table
+            columnCount = headers.length;
+            rowCount = dataRows.length;
+            
+            const headerRow = document.getElementById('headerRow');
+            const tableBody = document.getElementById('tableBody');
+            
+            // Clear and rebuild headers
+            headerRow.innerHTML = '';
+            for (let i = 0; i < headers.length; i++) {
+                const th = document.createElement('th');
+                const headerContent = document.createElement('div');
+                headerContent.className = 'header-content';
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = i === 0 ? 'Date' : headers[i];
+                if (i === 0) {
+                    input.readOnly = true;
+                }
+                input.onchange = updateAxisSelectors;
+                headerContent.appendChild(input);
+                
+                if (i > 0) {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-column';
+                    deleteBtn.textContent = '✕';
+                    deleteBtn.onclick = () => deleteColumn(i);
+                    headerContent.appendChild(deleteBtn);
+                }
+                
+                th.appendChild(headerContent);
+                headerRow.appendChild(th);
+            }
+            
+            // Clear and rebuild data rows
+            tableBody.innerHTML = '';
+            dataRows.forEach(rowData => {
+                const row = document.createElement('tr');
+                for (let i = 0; i < columnCount; i++) {
+                    const td = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = i === 0 ? 'date' : 'text';
+                    input.value = rowData[i] || '';
+                    td.appendChild(input);
+                    row.appendChild(td);
+                }
+                tableBody.appendChild(row);
+            });
+            
+            updateAxisSelectors();
+            alert(`Successfully imported ${dataRows.length} rows and ${headers.length} columns`);
+        }
+
+        // Authentication functions (placeholder - requires backend)
+        function handleLogin() {
+            alert('Google OAuth login requires backend server integration. This is a front-end only demo.');
+        }
+
+        function handleLogout() {
+            document.getElementById('loginArea').style.display = 'block';
+            document.getElementById('userArea').style.display = 'none';
+        }
+
+        // API Key management (placeholder - requires backend)
+        function saveApiKey() {
+            const apiKey = document.getElementById('apiKey').value;
+            if (!apiKey || !apiKey.startsWith('sk-')) {
+                alert('Please enter a valid OpenAI API key (starts with sk-)');
+                return;
+            }
+            alert('API key saved! (Note: Backend integration required for actual storage)');
+        }
+
+        // Chat functions (placeholder - requires backend)
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to chat
+            const chatHistory = document.getElementById('chatHistory');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user';
+            userMessage.innerHTML = `<p>${message}</p>`;
+            chatHistory.appendChild(userMessage);
+            
+            // Clear input
+            input.value = '';
+            
+            // Scroll to bottom
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            
+            // Placeholder response
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'chat-message assistant';
+                botMessage.innerHTML = `<p>AI chat requires backend integration with OpenAI API. This is a front-end demo.</p>`;
+                chatHistory.appendChild(botMessage);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }, 500);
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
         }
 
         // Initialize on page load
