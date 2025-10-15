@@ -83,6 +83,8 @@ const firebaseConfig = {
 - `messagingSenderId`: Numeric value
 - `appId`: Starts with "1:" and contains your project number
 
+📖 **See `FIREBASE_CONFIG_EXAMPLE.md` for a detailed example of what the configuration should look like.**
+
 ### Step 7: Deploy to Vercel
 
 After updating the configuration:
@@ -90,6 +92,19 @@ After updating the configuration:
 2. Push to GitHub
 3. Vercel will automatically deploy the updated application
 4. Make sure to add your Vercel domain to Firebase authorized domains (Step 2.4)
+
+### Step 8: Test Your Implementation
+
+After deploying, follow the testing guide to verify everything works correctly:
+
+📖 **See `TESTING.md` for comprehensive testing instructions.**
+
+Quick test checklist:
+- [ ] Can sign in with Google
+- [ ] User info appears after sign in
+- [ ] Data persists after reload
+- [ ] Different users see different data
+- [ ] No console errors
 
 ### Optional: Enable OpenAI Chat Assistant
 
