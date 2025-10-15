@@ -864,13 +864,24 @@
                 return;
             }
 
+            // Check if X-axis is the Date column (index 0)
+            const isDateXAxis = xAxisIndex === 0;
+
             // Prepare Y1 data
             const xData = [];
             const y1Data = [];
             const y2Data = y2AxisIndex ? [] : null;
 
             data.forEach((row, index) => {
-                const xVal = parseFloat(row[xAxisIndex]);
+                let xVal;
+                if (isDateXAxis) {
+                    // Parse date string to timestamp (milliseconds)
+                    const dateStr = row[xAxisIndex];
+                    const date = new Date(dateStr);
+                    xVal = date.getTime();
+                } else {
+                    xVal = parseFloat(row[xAxisIndex]);
+                }
                 const y1Val = parseFloat(row[y1AxisIndex]);
                 
                 if (!isNaN(xVal) && !isNaN(y1Val)) {
@@ -903,10 +914,10 @@
 
             // Draw the chart
             drawChart(xData, y1Data, y2Data, headers[xAxisIndex], headers[y1AxisIndex], 
-                     y2AxisIndex ? headers[parseInt(y2AxisIndex)] : null);
+                     y2AxisIndex ? headers[parseInt(y2AxisIndex)] : null, isDateXAxis);
         }
 
-        function drawChart(xData, y1Data, y2Data, xLabel, y1Label, y2Label) {
+        function drawChart(xData, y1Data, y2Data, xLabel, y1Label, y2Label, isDateXAxis = false) {
             const svg = document.getElementById('chartSvg');
             const width = 800;
             const height = 400;
@@ -921,10 +932,13 @@
             const y1Min = Math.min(...y1Data);
             const y1Max = Math.max(...y1Data);
 
-            // Add some padding to the ranges
+            // Add padding to the ranges
             const xRange = xMax - xMin || 1;
             const y1Range = y1Max - y1Min || 1;
-            const xPadding = xRange * 0.1;
+            
+            // For date X-axis, add 1 day padding (86400000 ms = 1 day)
+            // For numeric X-axis, add 10% padding
+            const xPadding = isDateXAxis ? 86400000 : xRange * 0.1;
             const y1Padding = y1Range * 0.1;
 
             const xStart = xMin - xPadding;
@@ -984,7 +998,16 @@
                 xText.setAttribute('text-anchor', 'middle');
                 xText.setAttribute('fill', '#666');
                 xText.setAttribute('font-size', '12');
-                xText.textContent = xVal.toFixed(1);
+                
+                // Format X-axis labels based on whether it's a date
+                if (isDateXAxis) {
+                    const date = new Date(xVal);
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    xText.textContent = `${month}/${day}`;
+                } else {
+                    xText.textContent = xVal.toFixed(1);
+                }
                 axisGroup.appendChild(xText);
 
                 // Grid line for x
@@ -1063,7 +1086,14 @@
                 circle.setAttribute('stroke-width', '2');
                 
                 const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-                title.textContent = `${y1Label}: (${x.toFixed(2)}, ${y1Data[i].toFixed(2)})`;
+                // Format tooltip based on whether X-axis is a date
+                if (isDateXAxis) {
+                    const date = new Date(x);
+                    const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD format
+                    title.textContent = `${y1Label}: (${dateStr}, ${y1Data[i].toFixed(2)})`;
+                } else {
+                    title.textContent = `${y1Label}: (${x.toFixed(2)}, ${y1Data[i].toFixed(2)})`;
+                }
                 circle.appendChild(title);
                 
                 svg.appendChild(circle);
@@ -1149,7 +1179,14 @@
                         circle.setAttribute('stroke-width', '2');
                         
                         const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-                        title.textContent = `${y2Label}: (${x.toFixed(2)}, ${y2Data[i].toFixed(2)})`;
+                        // Format tooltip based on whether X-axis is a date
+                        if (isDateXAxis) {
+                            const date = new Date(x);
+                            const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD format
+                            title.textContent = `${y2Label}: (${dateStr}, ${y2Data[i].toFixed(2)})`;
+                        } else {
+                            title.textContent = `${y2Label}: (${x.toFixed(2)}, ${y2Data[i].toFixed(2)})`;
+                        }
                         circle.appendChild(title);
                         
                         svg.appendChild(circle);
